@@ -1,0 +1,5 @@
+name = "cf-missing-content-length"
+main = "src/index.ts"
+compatibility_date = "2025-06-01"
+
+# No bindings needed — this POC just proxies a fixed upstream URL.
