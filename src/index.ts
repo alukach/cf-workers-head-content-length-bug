@@ -13,10 +13,16 @@ const CONTENT_LENGTH = String(new TextEncoder().encode(BODY).byteLength);
 
 export default {
   async fetch(request: Request): Promise<Response> {
-    const headers = {
-      "content-type": "text/plain; charset=utf-8",
+    const headers: Record<string, string> = {
+      "content-type": "application/octet-stream",
       "content-length": CONTENT_LENGTH,
     };
+
+    // Any query param becomes a response header, e.g. ?cache-control=no-transform.
+    const { searchParams } = new URL(request.url);
+    for (const [name, value] of searchParams) {
+      headers[name] = value;
+    }
 
     // HEAD carries no body but still advertises the size.
     if (request.method === "HEAD") {
